@@ -67,8 +67,6 @@ capitalisation_policy = "upper"
 extended_capitalisation_policy = "upper"
 
 [tool.sqruff.templater.placeholder]
-# `sqlakit export sqruff` writes what the templates need, and keeps
-# what you add.
 param_style = "colon"
 column = "1"
 exclude = "1"
