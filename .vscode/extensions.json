@@ -1,0 +1,9 @@
+{
+  "recommendations": [
+    "sqlakit.sqlakit",
+    "ms-python.python",
+    "astral-sh.ty",
+    "charliermarsh.ruff",
+    "Quary.sqruff"
+  ]
+}

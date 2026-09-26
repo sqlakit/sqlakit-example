@@ -1,0 +1,88 @@
+[project]
+name = "sqlakit-example"
+version = "0.1.0"
+description = "A shop on SQLite, with every kind of SQLAKit template and macro."
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.11"
+dependencies = [
+    "sqlakit>=0.22.0",
+    "sqlalchemy>=2.1.1",
+]
+
+[tool.uv]
+package = false
+
+[dependency-groups]
+dev = [
+    "pytest>=9.1.1",
+    "ruff>=0.16.6",
+    "sqruff>=0.40.0",
+    "ty>=0.0.84",
+    "poethepoet>=0.48.0",
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+sqlakit = true
+filterwarnings = ["error"]
+
+[tool.ruff]
+include = ["shop/**/*.py", "tests/**/*.py", "pyproject.toml"]
+
+[tool.ruff.lint]
+select = ["ALL"]
+ignore = [
+    "CPY001", # copyright notice in every file
+    "D1", # docstrings are not mandatory
+    "D203", # incompatible with D211
+    "D213", # incompatible with D212
+    "E501", # line length is enforced by the formatter
+    "COM812", # conflicts with the formatter
+    "ISC001", # conflicts with the formatter
+    "D401", # docstrings say what a function gives, not what it does
+    "DTZ001", # SQLite keeps timestamps without a zone, and so does the shop
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**/*.py" = [
+    "S101",     # tests assert
+    "PLR2004",  # and compare against the values they mean
+    "INP001",   # tests are not a package
+]
+
+[tool.sqruff.core]
+dialect = "sqlite"
+templater = "placeholder"
+exclude_rules = "RF01,AL05,ST03"
+
+[tool.sqruff.templater.placeholder]
+# `sqlakit export sqruff` writes what the templates need, and keeps
+# what you add.
+param_style = "colon"
+column = "1"
+exclude = "1"
+limit = "1"
+offset = "1"
+table = "table_"
+
+[tool.poe.tasks.fmt]
+help = "Format and auto-fix the Python and the SQL"
+sequence = ["ruff format", "ruff check --fix", "sqruff fix shop"]
+default_item_type = "cmd"
+
+[tool.poe.tasks.lint]
+help = "Lint the Python and the templates"
+sequence = [
+    "ruff format --check",
+    "ruff check",
+    "ty check",
+    "sqlakit check",
+    "sqlakit export sqruff --check",
+    "sqruff lint shop",
+]
+default_item_type = "cmd"
+
+[tool.poe.tasks.test]
+help = "Run the tests"
+cmd = "pytest"
