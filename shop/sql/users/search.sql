@@ -1,5 +1,8 @@
 -- Active users, narrowed by whatever the request sends, one page at a time.
-SELECT u.id, u.name, u.email
+SELECT
+    u.id,
+    u.name,
+    u.email
 FROM users AS u
 WHERE
     tpl.active(u)

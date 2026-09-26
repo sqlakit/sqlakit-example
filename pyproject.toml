@@ -54,7 +54,17 @@ ignore = [
 [tool.sqruff.core]
 dialect = "sqlite"
 templater = "placeholder"
-exclude_rules = "RF01,AL05,ST03"
+rules = "all"
+exclude_rules = "RF01,RF02,RF03,AL05,ST03"
+
+[tool.sqruff.rules.capitalisation.keywords]
+capitalisation_policy = "upper"
+
+[tool.sqruff.rules.capitalisation.literals]
+capitalisation_policy = "upper"
+
+[tool.sqruff.rules.capitalisation.types]
+extended_capitalisation_policy = "upper"
 
 [tool.sqruff.templater.placeholder]
 # `sqlakit export sqruff` writes what the templates need, and keeps

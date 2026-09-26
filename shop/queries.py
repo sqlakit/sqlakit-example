@@ -40,6 +40,11 @@ def users_of_team(team: Team) -> Sequence[sa.Row]:
     return db.sql("users/of_team.sql", team=team).all()
 
 
+def users_named(name: str) -> Sequence[sa.Row]:
+    """The users of a name, whatever its case."""
+    return db.sql("users/named.sql", name=name).all()
+
+
 def recent_orders(
     *,
     since: datetime | None = None,
@@ -88,6 +93,16 @@ def filtered_orders(
 def targets(rows: Sequence[tuple[int, int]]) -> Sequence[sa.Row]:
     """Each team's target, as `(team_id, target)`, against its orders."""
     return db.sql("reports/targets.sql", targets=rows).all()
+
+
+def orders_per_status(statuses: Sequence[str]) -> Sequence[sa.Row]:
+    """How many orders are in each status, and 0 for a status with none."""
+    return db.sql("reports/statuses.sql", statuses=statuses).all()
+
+
+def top_spenders(top: int) -> Sequence[sa.Row]:
+    """The `top` users of each team by what they spent on paid orders."""
+    return db.sql("reports/top_spenders.sql", top=top).all()
 
 
 def count_rows(table: str) -> int:

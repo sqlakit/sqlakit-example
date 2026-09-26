@@ -1,6 +1,8 @@
 -- Orders of the user the call names, if it names one, and only the paid ones
 -- unless the call asks for every order.
-SELECT o.id, o.status
+SELECT
+    o.id,
+    o.status
 FROM orders AS o
 WHERE
     tpl.if_set(

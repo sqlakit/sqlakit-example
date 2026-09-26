@@ -39,6 +39,11 @@ def test_users_are_owned_by_teams_or_by_ids() -> None:
     assert rows(queries.users_owned_by()) == []
 
 
+def test_a_name_is_found_whatever_its_case() -> None:
+    assert rows(queries.users_named("ada")) == [(1, "Ada")]
+    assert rows(queries.users_named("GRACE")) == [(2, "Grace")]
+
+
 def test_a_team_is_passed_as_the_object() -> None:
     red = db.session.get_one(Team, 1)
 
@@ -94,6 +99,26 @@ def test_orders_join_their_user_only_when_asked() -> None:
 
 def test_targets_travel_as_a_table_of_values() -> None:
     assert rows(queries.targets([(1, 3), (2, 5)])) == [("blue", 5, 1), ("red", 3, 3)]
+
+
+def test_each_status_asked_for_is_counted() -> None:
+    assert rows(queries.orders_per_status(["paid", "refunded", "shipped"])) == [
+        ("paid", 3),
+        ("refunded", 0),
+        ("shipped", 1),
+    ]
+
+
+def test_the_top_spenders_of_each_team_are_ranked() -> None:
+    assert rows(queries.top_spenders(1)) == [
+        ("blue", "Linus", 1, "3.00"),
+        ("red", "Grace", 1, "40.00"),
+    ]
+    assert [(row.team, row.name, row.place) for row in queries.top_spenders(2)] == [
+        ("blue", "Linus", 1),
+        ("red", "Grace", 1),
+        ("red", "Ada", 2),
+    ]
 
 
 def test_a_table_name_is_written_only_when_it_is_one_listed() -> None:

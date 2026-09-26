@@ -29,5 +29,5 @@ def test_the_command_line_finds_what_the_code_configures() -> None:
         "macros: 5 in Python, 1 file of SQL macros",
         "dialect: sqlite (shop/db.py:11)",
         "",
-        "11 templates, 0 problems",
+        "14 templates, 0 problems",
     ]

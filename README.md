@@ -35,6 +35,9 @@ $ uv run poe test
 | `Inline.name`, a table name written into the SQL | [`reports/count.sql`](shop/sql/reports/count.sql) |
 | `tpl.identifier`, a column the request picks | [`reports/sorted.sql`](shop/sql/reports/sorted.sql) |
 | `tpl.on_dialect` | [`reports/version.sql`](shop/sql/reports/version.sql) |
+| `tpl.icollate`, a name found whatever its case | [`users/named.sql`](shop/sql/users/named.sql) |
+| `tpl.each`, a list outside `IN`, in a CTE | [`reports/statuses.sql`](shop/sql/reports/statuses.sql) |
+| a window function in a CTE, and `money` | [`reports/top_spenders.sql`](shop/sql/reports/top_spenders.sql) |
 | a function per template, `db.sql("...")` | [`shop/queries.py`](shop/queries.py) |
 | tests in a transaction that rolls back, with the pytest plugin | [`tests/`](tests) |
 
@@ -50,7 +53,7 @@ namespace: tpl (the default)
 macros: 5 in Python, 1 file of SQL macros
 dialect: sqlite (shop/db.py:11)
 
-11 templates, 0 problems
+14 templates, 0 problems
 ```
 
 `sqlakit export sqruff` wrote the `[tool.sqruff]` tables of `pyproject.toml`,
@@ -59,6 +62,12 @@ so `sqruff` reads the templates as SQL:
 ```console
 $ uv run sqruff lint shop
 ```
+
+The shop runs every rule `sqruff` has, `rules = "all"`, with keywords in upper
+case. It turns off five that a macro's call trips while the template is fine:
+`RF01`, `RF02` and `RF03` read a table a macro takes, as in `tpl.paid(o)`, as a
+column, and `AL05` and `ST03` miss an alias or a CTE used only inside a
+macro's arguments.
 
 The editor extensions run [`sqlakit-lsp`](https://github.com/sqlakit/sqlakit-lsp)
 with `uvx`, so the project doesn't install it. A template gets completion after
