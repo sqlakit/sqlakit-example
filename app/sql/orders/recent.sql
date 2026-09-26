@@ -9,4 +9,4 @@ FROM orders AS o
 WHERE
     tpl.paid(o)
     AND tpl.between(o.placed_at, :since, :until, '[)')
-    AND tpl.in_list(o.status, :statuses, :exclude)
+    AND tpl.in_list(o.status, :statuses, :excluded)

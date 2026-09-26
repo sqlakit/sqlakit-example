@@ -1,4 +1,4 @@
-"""Every query of the shop, run on SQLite against the rows of `shop.seed`."""
+"""Every query of the shop, run on SQLite against the rows of `app.seed`."""
 
 from collections.abc import Sequence
 from datetime import datetime
@@ -7,9 +7,9 @@ import pytest
 import sqlalchemy as sa
 from sqlakit import InlineValueError, UnknownIdentifierError
 
-from shop import queries
-from shop.db import db
-from shop.models import Team
+from app import queries
+from app.db import db
+from app.models import Team
 
 pytestmark = [pytest.mark.db, pytest.mark.usefixtures("shop")]
 

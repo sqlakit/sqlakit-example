@@ -4,4 +4,4 @@ SELECT
     u.name,
     u.email
 FROM users AS u
-ORDER BY tpl.identifier(:column, id, name, email), u.id
+ORDER BY tpl.identifier(:sort_by, id, name, email), u.id

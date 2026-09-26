@@ -6,7 +6,7 @@ readme = "README.md"
 license = "MIT"
 requires-python = ">=3.11"
 dependencies = [
-    "sqlakit>=0.22.0",
+    "sqlakit>=0.22.1",
     "sqlalchemy>=2.1.1",
 ]
 
@@ -28,7 +28,7 @@ sqlakit = true
 filterwarnings = ["error"]
 
 [tool.ruff]
-include = ["shop/**/*.py", "tests/**/*.py", "pyproject.toml"]
+include = ["app/**/*.py", "tests/**/*.py", "pyproject.toml"]
 
 [tool.ruff.lint]
 select = ["ALL"]
@@ -68,15 +68,10 @@ extended_capitalisation_policy = "upper"
 
 [tool.sqruff.templater.placeholder]
 param_style = "colon"
-column = "1"
-exclude = "1"
-limit = "1"
-offset = "1"
-table = "table_"
 
 [tool.poe.tasks.fmt]
 help = "Format and auto-fix the Python and the SQL"
-sequence = ["ruff format", "ruff check --fix", "sqruff fix shop"]
+sequence = ["ruff format", "ruff check --fix", "sqruff fix app"]
 default_item_type = "cmd"
 
 [tool.poe.tasks.lint]
@@ -87,7 +82,7 @@ sequence = [
     "ty check",
     "sqlakit check",
     "sqlakit export sqruff --check",
-    "sqruff lint shop",
+    "sqruff lint app",
 ]
 default_item_type = "cmd"
 

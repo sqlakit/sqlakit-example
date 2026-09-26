@@ -1,6 +1,6 @@
 """The queries the shop runs, one function per template.
 
-Each name in `db.sql("...")` is a template under `shop/sql`, and `sqlakit-lsp`
+Each name in `db.sql("...")` is a template under `app/sql`, and `sqlakit-lsp`
 links it to its file, completes it and marks one that isn't there.
 """
 
@@ -24,7 +24,12 @@ def search_users(
 ) -> Sequence[sa.Row]:
     """Active users, narrowed by the text, the teams and the page asked for."""
     return db.sql(
-        "users/search.sql", q=q, teams=teams, sort=sort, limit=limit, offset=offset
+        "users/search.sql",
+        q=q,
+        teams=teams,
+        sort=sort,
+        page_size=limit,
+        page_offset=offset,
     ).all()
 
 
@@ -58,7 +63,7 @@ def recent_orders(
         since=since,
         until=until,
         statuses=statuses,
-        exclude=exclude,
+        excluded=exclude,
     ).all()
 
 
@@ -71,7 +76,7 @@ def spending_by_user(
         since=since,
         until=None,
         statuses=(),
-        exclude=False,
+        excluded=False,
         sort=sort,
     ).all()
 
@@ -108,7 +113,7 @@ def top_spenders(top: int) -> Sequence[sa.Row]:
 def count_rows(table: str) -> int:
     """The rows of `users` or `orders`, and of nothing else."""
     return (
-        db.sql("reports/count.sql", table=Inline.name(table, "users", "orders"))
+        db.sql("reports/count.sql", table_name=Inline.name(table, "users", "orders"))
         .scalars()
         .one()
     )
@@ -116,7 +121,7 @@ def count_rows(table: str) -> int:
 
 def users_sorted_by(column: str) -> Sequence[sa.Row]:
     """Users sorted by `id`, `name` or `email`."""
-    return db.sql("reports/sorted.sql", column=column).all()
+    return db.sql("reports/sorted.sql", sort_by=column).all()
 
 
 def version() -> str:

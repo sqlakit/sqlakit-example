@@ -6,8 +6,8 @@ os.environ["DATABASE_URL"] = "sqlite://"
 
 import pytest
 
-from shop.models import Model
-from shop.seed import seed
+from app.models import Model
+from app.seed import seed
 
 
 @pytest.fixture(scope="session")
@@ -17,5 +17,5 @@ def sqlakit_base() -> type[Model]:
 
 @pytest.fixture
 def shop() -> None:
-    """The rows of `shop.seed`, in the test's transaction."""
+    """The rows of `app.seed`, in the test's transaction."""
     seed()

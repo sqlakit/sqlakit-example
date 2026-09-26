@@ -1,7 +1,5 @@
 {
-  // The project's own Python, so ruff and ty run from `.venv`.
   "python.defaultInterpreterPath": "${workspaceFolder}/.venv/bin/python",
-  // ty checks the types, in place of the Python extension's own server.
   "python.languageServer": "None",
 
   "[python]": {
@@ -25,10 +23,5 @@
     "tests"
   ],
   "python.testing.unittestEnabled": false,
-  "python.testing.pytestEnabled": true,
-
-  // `python -m shop.seed` writes it, and nothing in it is worth a search.
-  "search.exclude": {
-    "shop.db": true
-  }
+  "python.testing.pytestEnabled": true
 }

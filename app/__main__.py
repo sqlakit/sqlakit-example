@@ -1,8 +1,8 @@
 """Run every query once, and print what it returns.
 
 ```console
-$ python -m shop.seed
-$ python -m shop
+$ python -m app.seed
+$ python -m app
 ```
 """
 

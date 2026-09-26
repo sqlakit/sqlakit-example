@@ -4,7 +4,7 @@ import subprocess
 import sys
 from pathlib import Path
 
-from shop.db import db
+from app.db import db
 
 ROOT = Path(__file__).parent.parent
 
@@ -24,10 +24,10 @@ def test_the_command_line_finds_what_the_code_configures() -> None:
 
     assert ran.returncode == 0, ran.stdout
     assert ran.stdout.splitlines() == [
-        "templates: shop/sql (shop/db.py:13)",
+        "templates: app/sql (app/db.py:13)",
         "namespace: tpl (the default)",
         "macros: 5 in Python, 1 file of SQL macros",
-        "dialect: sqlite (shop/db.py:11)",
+        "dialect: sqlite (app/db.py:11)",
         "",
         "14 templates, 0 problems",
     ]

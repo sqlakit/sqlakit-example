@@ -7,8 +7,8 @@ checks what it returns.
 
 ```console
 $ uv sync
-$ uv run python -m shop.seed    # writes shop.db
-$ uv run python -m shop         # runs every query and prints the rows
+$ uv run python -m app.seed    # writes app.db
+$ uv run python -m app         # runs every query and prints the rows
 $ uv run poe test
 ```
 
@@ -20,25 +20,25 @@ $ uv run poe test
 
 | feature | file |
 | --- | --- |
-| templates, macros and the database, configured once | [`shop/db.py`](shop/db.py) |
-| `:name` parameters, `IN (:teams)`, `LIMIT :limit` with no value | [`users/search.sql`](shop/sql/users/search.sql) |
-| `tpl.if_set`, `tpl.order_by` from a sort string | [`users/search.sql`](shop/sql/users/search.sql) |
-| a Python macro that builds SQL from values: `owned_by`, `search` | [`shop/macros.py`](shop/macros.py), [`users/owned.sql`](shop/sql/users/owned.sql) |
-| a Python macro that asks the dialect: `money`, `period` with `Literal` | [`shop/macros.py`](shop/macros.py), [`orders/monthly.sql`](shop/sql/orders/monthly.sql) |
-| macros written in SQL: `active`, `paid` | [`shop/sql/_macros.sql`](shop/sql/_macros.sql) |
-| a macro with its SQL in a file and its values from Python: `of_team` | [`shop/tenant.py`](shop/tenant.py), [`shop/tenant.sql`](shop/tenant.sql) |
-| `tpl.between`, `tpl.in_list` | [`orders/recent.sql`](shop/sql/orders/recent.sql) |
-| `tpl.include`, sharing the parameters, `tpl.string_agg` | [`orders/by_user.sql`](shop/sql/orders/by_user.sql) |
-| a dotted parameter, `:team.id`, and `tpl.json_object` | [`orders/monthly.sql`](shop/sql/orders/monthly.sql) |
-| `tpl.if_set` around `EXISTS`, `tpl.unless_set` | [`orders/filtered.sql`](shop/sql/orders/filtered.sql) |
-| `tpl.values`, a table sent with the call | [`reports/targets.sql`](shop/sql/reports/targets.sql) |
-| `Inline.name`, a table name written into the SQL | [`reports/count.sql`](shop/sql/reports/count.sql) |
-| `tpl.identifier`, a column the request picks | [`reports/sorted.sql`](shop/sql/reports/sorted.sql) |
-| `tpl.on_dialect` | [`reports/version.sql`](shop/sql/reports/version.sql) |
-| `tpl.icollate`, a name found whatever its case | [`users/named.sql`](shop/sql/users/named.sql) |
-| `tpl.each`, a list outside `IN`, in a CTE | [`reports/statuses.sql`](shop/sql/reports/statuses.sql) |
-| a window function in a CTE, and `money` | [`reports/top_spenders.sql`](shop/sql/reports/top_spenders.sql) |
-| a function per template, `db.sql("...")` | [`shop/queries.py`](shop/queries.py) |
+| templates, macros and the database, configured once | [`app/db.py`](app/db.py) |
+| `:name` parameters, `IN (:teams)`, `LIMIT :page_size` with no value | [`users/search.sql`](app/sql/users/search.sql) |
+| `tpl.if_set`, `tpl.order_by` from a sort string | [`users/search.sql`](app/sql/users/search.sql) |
+| a Python macro that builds SQL from values: `owned_by`, `search` | [`app/macros.py`](app/macros.py), [`users/owned.sql`](app/sql/users/owned.sql) |
+| a Python macro that asks the dialect: `money`, `period` with `Literal` | [`app/macros.py`](app/macros.py), [`orders/monthly.sql`](app/sql/orders/monthly.sql) |
+| macros written in SQL: `active`, `paid` | [`app/sql/_macros.sql`](app/sql/_macros.sql) |
+| a macro with its SQL in a file and its values from Python: `of_team` | [`app/tenant.py`](app/tenant.py), [`app/tenant.sql`](app/tenant.sql) |
+| `tpl.between`, `tpl.in_list` | [`orders/recent.sql`](app/sql/orders/recent.sql) |
+| `tpl.include`, sharing the parameters, `tpl.string_agg` | [`orders/by_user.sql`](app/sql/orders/by_user.sql) |
+| a dotted parameter, `:team.id`, and `tpl.json_object` | [`orders/monthly.sql`](app/sql/orders/monthly.sql) |
+| `tpl.if_set` around `EXISTS`, `tpl.unless_set` | [`orders/filtered.sql`](app/sql/orders/filtered.sql) |
+| `tpl.values`, a table sent with the call | [`reports/targets.sql`](app/sql/reports/targets.sql) |
+| `Inline.name`, a table name written into the SQL | [`reports/count.sql`](app/sql/reports/count.sql) |
+| `tpl.identifier`, a column the request picks | [`reports/sorted.sql`](app/sql/reports/sorted.sql) |
+| `tpl.on_dialect` | [`reports/version.sql`](app/sql/reports/version.sql) |
+| `tpl.icollate`, a name found whatever its case | [`users/named.sql`](app/sql/users/named.sql) |
+| `tpl.each`, a list outside `IN`, in a CTE | [`reports/statuses.sql`](app/sql/reports/statuses.sql) |
+| a window function in a CTE, and `money` | [`reports/top_spenders.sql`](app/sql/reports/top_spenders.sql) |
+| a function per template, `db.sql("...")` | [`app/queries.py`](app/queries.py) |
 | tests in a transaction that rolls back, with the pytest plugin | [`tests/`](tests) |
 
 ## Tools
@@ -48,10 +48,10 @@ every template:
 
 ```console
 $ uv run sqlakit check
-templates: shop/sql (shop/db.py:13)
+templates: app/sql (app/db.py:13)
 namespace: tpl (the default)
 macros: 5 in Python, 1 file of SQL macros
-dialect: sqlite (shop/db.py:11)
+dialect: sqlite (app/db.py:11)
 
 14 templates, 0 problems
 ```
@@ -60,7 +60,7 @@ dialect: sqlite (shop/db.py:11)
 so `sqruff` reads the templates as SQL:
 
 ```console
-$ uv run sqruff lint shop
+$ uv run sqruff lint app
 ```
 
 The shop runs every rule `sqruff` has, `rules = "all"`, with keywords in upper

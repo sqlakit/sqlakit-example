@@ -9,4 +9,4 @@ WHERE
     AND tpl.if_set(:teams, u.team_id IN (:teams))
     AND tpl.search(:q, u.name, u.email)
 ORDER BY tpl.order_by(:sort, id, name, email, 'name')
-LIMIT :limit OFFSET :offset
+LIMIT :page_size OFFSET :page_offset

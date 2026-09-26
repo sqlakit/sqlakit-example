@@ -1,6 +1,6 @@
 """Macros written in Python, for SQL that depends on the values of a call.
 
-`Templates(macros=["shop.macros"])` registers every macro of this module.
+`Templates(macros=["app.macros"])` registers every macro of this module.
 """
 
 from typing import Literal

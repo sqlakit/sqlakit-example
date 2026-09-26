@@ -1,7 +1,7 @@
 """Create the tables and fill them with a few teams, users and orders.
 
 ```console
-$ python -m shop.seed
+$ python -m app.seed
 ```
 """
 
