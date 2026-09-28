@@ -6,7 +6,7 @@ readme = "README.md"
 license = "MIT"
 requires-python = ">=3.11"
 dependencies = [
-    "sqlakit>=0.22.1",
+    "sqlakit>=0.22.5",
     "sqlalchemy>=2.1.1",
 ]
 
@@ -71,7 +71,12 @@ param_style = "colon"
 
 [tool.poe.tasks.fmt]
 help = "Format and auto-fix the Python and the SQL"
-sequence = ["ruff format", "ruff check --fix", "sqruff fix app"]
+sequence = [
+    "ruff format",
+    "ruff check --fix",
+    "sqlakit export sqruff",
+    "sqruff fix app",
+]
 default_item_type = "cmd"
 
 [tool.poe.tasks.lint]
@@ -80,8 +85,7 @@ sequence = [
     "ruff format --check",
     "ruff check",
     "ty check",
-    "sqlakit check",
-    "sqlakit export sqruff --check",
+    "sqlakit check --lint sqruff",
     "sqruff lint app",
 ]
 default_item_type = "cmd"

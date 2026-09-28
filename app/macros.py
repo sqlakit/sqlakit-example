@@ -12,7 +12,7 @@ from sqlakit.sql import Context, Param, Sql, sql_macro, tpl
 def owned_by(row: Sql, team_ids: Param, user_ids: Param) -> str:
     """Rows of any of the teams or the users, and none when neither is given."""
     criteria = [
-        f"{row}.{column} IN {param}"
+        f"{row}.{column} IN ({param})"
         for column, param in (("team_id", team_ids), ("id", user_ids))
         if param.value
     ]
