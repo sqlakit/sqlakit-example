@@ -20,10 +20,19 @@
       "formatter": {
         "external": {
           "command": "uv",
-          "arguments": ["run", "--frozen", "sqruff", "fix", "-"],
-        },
+          "arguments": [
+            "run",
+            "--frozen",
+            "sqruff",
+            "fix",
+            "-"
+          ]
+        }
       },
-      "language_servers": ["sqlakit-lsp", "..."],
+      "language_servers": [
+        "sqlakit-lsp",
+        "..."
+      ]
     }
   }
 }
